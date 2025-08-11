@@ -1,96 +1,122 @@
 {% extends "Login.html" %}
 
 {% block content %}
- <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #74b9ff, #a29bfe);
-            font-family: Arial, sans-serif;
-        }
+<style>
+            /* Чтобы не дублировать, предположим, что стили из Login.html уже подключены */
 
-        #submitForm {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 350px;
-            padding: 30px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #74b9ff, #a29bfe);
+    font-family: Arial, sans-serif;
+}
 
-        #submitForm h2 {
-            text-align: center;
-            margin-bottom: 10px;
-            color: #2d3436;
-        }
+#submitForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 350px;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
 
-        #submitForm label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #2d3436;
-        }
+#submitForm h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #2d3436;
+}
 
-        #submitForm input {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            outline: none;
-            transition: 0.3s;
-        }
+#submitForm p {
+    margin: 0;
+    font-weight: bold;
+    color: #2d3436;
+}
 
-        #submitForm input:focus {
-            border-color: #6c5ce7;
-            box-shadow: 0 0 5px rgba(108, 92, 231, 0.5);
-        }
+#submitForm input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
 
-        #submitForm button {
-            padding: 10px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            background-color: #6c5ce7;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
+#submitForm input:focus {
+    border-color: #6c5ce7;
+    box-shadow: 0 0 5px rgba(108, 92, 231, 0.5);
+}
 
-        #submitForm button:hover {
-            background-color: #5a4bcf;
-        }
+#submitForm button {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #6c5ce7;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
 
-        #register-link {
-            text-decoration: none;
+#submitForm button:hover {
+    background-color: #5a4bcf;
+}
 
-        }
-        #login-link:hover {
-            transition: 0.3s;
-            color: rgb(206, 112, 112);
-        }
-    </style>
- <form id="submitForm">
+#login-link {
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    color: #6c5ce7;
+    text-decoration: none;
+}
+
+#login-link:hover {
+    color: #5a4bcf;
+}
+
+.error-message {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
+
+
+        </style>
+ <form id="submitForm" method="post" action="{% url 'RegisterPage'%}">
+
+        {% csrf_token %}
+
         <h2>Register</h2>
-        
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Enter your email" required />
-        
-        <label for="firstName">First name</label>
-        <input type="text" id="email" placeholder="Enter your first name" required />
 
-        <label for="lastName">Last name</label>
-        <input type="text" id="email" placeholder="Enter your last name" required />
+        <p>Username</p>
+        <input name="Username" placeholder="Enter your username" required />
+        
+        <p>Email</p>
+        <input name="Email" placeholder="Enter your email" required />
+        
+        <p>First name</p>
+        <input name="First_name" placeholder="Enter your first name" required />
 
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter your password" required />
+        <p>Last name</p>
+        <input name="Last_name" placeholder="Enter your last name" required />
+
+        <p>Password</p>
+        <input name="Password1" placeholder="Enter your password" required />
+
+        <p>Confirm password</p>
+        <input name="Password2" placeholder="Enter your password" required />
         
         <button>Login</button>
         <a href="{% url 'LoginPage' %}" id="login-link">Already have an account? Log in!</a>
+        {% if error %}
+         <div class="error-message">{{ error }}</div>
+    {% endif %}
     </form>
+    
 
 {% endblock %}

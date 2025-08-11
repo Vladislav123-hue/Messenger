@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <title>Login</title>
+</head>
+<body>
+{% block content %}
+
     <style>
+
         body {
             margin: 0;
             height: 100vh;
@@ -31,9 +36,9 @@
             color: #2d3436;
         }
 
-        #submitForm label {
+        #submitForm p {
+            margin: 0;
             font-weight: bold;
-            margin-bottom: 5px;
             color: #2d3436;
         }
 
@@ -68,29 +73,46 @@
         }
 
         #register-link {
+            text-align: center;
+            display: block;
+            margin-top: 10px;
+            color: #6c5ce7;
             text-decoration: none;
-
         }
+
         #register-link:hover {
-            transition: 0.3s;
-            color: rgb(206, 112, 112);
+            color: #5a4bcf;
+        }
+
+        .error-message {
+            text-align: center;
+            color: red;
+            font-weight: bold;
         }
     </style>
-</head>
-<body>
-{% block content %}
-    <form id="submitForm">
+
+
+
+
+    <form id="submitForm" method="post" action="{% url 'LoginPage'%}">
+
+        {% csrf_token %}
+
         <h2>Login</h2>
         
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Enter your email" required />
+        <p>Username</p>
+        <input name="Username" placeholder="Enter your username" required />
         
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Enter your password" required />
+        <p>Password</p>
+        <input name="Password" placeholder="Enter your password" required />
         
         <button>Login</button>
         <a href="{% url 'RegisterPage' %}" id="register-link">Don't have an account? Register!</a>
-    </form>
+        {% if error %}
+         <div class="error-message">{{ error }}</div>
+    {% endif %}
 {% endblock %}
+    </form>
+    
 </body>
 </html>
