@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>Login</title>
-    <style>
+{% extends "Login.html" %}
+
+{% block content %}
+ <style>
         body {
             margin: 0;
             height: 100vh;
@@ -71,26 +69,28 @@
             text-decoration: none;
 
         }
-        #register-link:hover {
+        #login-link:hover {
             transition: 0.3s;
             color: rgb(206, 112, 112);
         }
     </style>
-</head>
-<body>
-{% block content %}
-    <form id="submitForm">
-        <h2>Login</h2>
+ <form id="submitForm">
+        <h2>Register</h2>
         
         <label for="email">Email</label>
         <input type="email" id="email" placeholder="Enter your email" required />
         
+        <label for="firstName">First name</label>
+        <input type="text" id="email" placeholder="Enter your first name" required />
+
+        <label for="lastName">Last name</label>
+        <input type="text" id="email" placeholder="Enter your last name" required />
+
         <label for="password">Password</label>
         <input type="password" id="password" placeholder="Enter your password" required />
         
         <button>Login</button>
-        <a href="{% url 'RegisterPage' %}" id="register-link">Don't have an account? Register!</a>
+        <a href="{% url 'LoginPage' %}" id="login-link">Already have an account? Log in!</a>
     </form>
+
 {% endblock %}
-</body>
-</html>
