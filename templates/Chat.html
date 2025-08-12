@@ -13,8 +13,25 @@
 </head>
 <body>
     <header></header><h1>{{speaking_partner_name}}</h1></header>
-    <div id="chat"></div>
-    <form action="" methode="">
+    <div id="chat">
+        {% if messages %}
+            {% for item in messages %}
+            <div id="message">
+                <div id="from">
+                    From: {{item.sender}}
+                </div><br>
+                <div id="to">
+                    To: {{item.receiver}}
+                </div><br>
+                <div id="message">
+                    Message: {{item.content}}
+                </div><br>
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
         <input type="text" name="text" placeholder="type your text here">
         <button>Send</button>
     </form>

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Q
+from .models import Profile, Chat, Message
 
 # Create your views here.
 
@@ -47,7 +48,7 @@ def Register(request):
     return render(request, 'Register.html')
      
 
-def Profile(request):
+def ProfileView(request):
      if request.method == "POST":
         query = request.POST.get('user')
         if query:
@@ -58,7 +59,23 @@ def Profile(request):
          results = []
      return render(request, 'Profile.html', {'results' : results})
 
-def Chat(request, username):
+def ChatView(request, username):
     speaking_partner_name = User.objects.get(username=username).first_name + " " + User.objects.get(username=username).last_name
+    messages = []
+    if request.method == "POST":
+        query = request.POST.get('text')
+        if query:
+            myProfile = Profile.objects.get(user__username=request.user.username)
+            ourChat, _ = Chat.objects.get_or_create(
+                profile=myProfile,
+                speaking_partner=speaking_partner_name
+            )
+            Message.objects.get_or_create(
+                chat=ourChat,
+                content=query, 
+                sender=request.user.username, 
+                receiver=username
+            )
+            messages = ourChat.messages.all()
+    return render(request, 'Chat.html', {'speaking_partner_name': speaking_partner_name, 'messages' : messages})
 
-    return render(request, 'Chat.html', {'speaking_partner_name' : speaking_partner_name})
