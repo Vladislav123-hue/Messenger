@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: green;
+        }
+
+        #middle-section {
+            background-color: gray;
+            display: flex;
+        }
+
+        #menu {
+            background-color: rgb(222, 0, 0);
+            height: 100px;
+            width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #people {
+            background-color: rgb(206, 255, 138);
+            width: 100%;
+
+        }
+
+        #people-and-searchbar {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>Messenger</header>
+
+    <div id="middle-section">
+        <div id="menu">
+            <a hred="">Profile</a>
+            <a hred="">Messages</a>
+        </div>
+        <div id="people-and-searchbar">
+            <div id="searchbar">
+                <form action="{% url 'ProfilePage' %}" method="post">
+                {% csrf_token %}
+                <input type="search" name="user" placeholder="type who you wanna chat with"/>
+                <button>search</button>
+                </form>
+            </div>
+            <div id="people">
+                {% if results %} 
+                {% for user in results %}
+                    <a href="">{{user.first_name}} {{user.last_name}}</a>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <footer></footer>
+
+
+</body>
+
+</html>

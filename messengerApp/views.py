@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 # Create your views here.
 
@@ -13,7 +14,7 @@ def Login(request):
 
           if user is not None:
                login(request, user)
-               return redirect('home')
+               return redirect('ProfilePage')
           else:
                error = "False login or password" 
                return render (request, 'Login.html', {'error' : error})
@@ -43,5 +44,16 @@ def Register(request):
         User.objects.create_user(username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
         return redirect('LoginPage')  # После регистрации — на логин
 
-    return render(request, 'register.html')
+    return render(request, 'Register.html')
      
+
+def Profile(request):
+     if request.method == "POST":
+        query = request.POST.get('user')
+        if query:
+            results = User.objects.filter(
+            Q(first_name__icontains=query) | Q(last_name__icontains=query)
+        )
+     else:
+         results = []
+     return render(request, 'Profile.html', {'results' : results})

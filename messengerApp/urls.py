@@ -5,5 +5,6 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', views.Login, name="LoginPage"),
-    path('register/', views.Register, name="RegisterPage")
+    path('register/', views.Register, name="RegisterPage"),
+    path('profile/', views.Profile, name="ProfilePage")
 ]
