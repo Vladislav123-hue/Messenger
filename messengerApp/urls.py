@@ -6,6 +6,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', views.Login, name="LoginPage"),
     path('register/', views.Register, name="RegisterPage"),
-    path('profile/', views.ProfileView, name="ProfilePage"),
-    path('chat/<str:username>', views.ChatView, name="ChatPage")
+    path('messages/', views.MessagesView, name="MessagesPage"),
+    path('messages/chat/<str:username>', views.ChatView, name="ChatPage")
 ]

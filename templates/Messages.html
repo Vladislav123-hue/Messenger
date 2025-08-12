@@ -55,7 +55,7 @@
         </div>
         <div id="people-and-searchbar">
             <div id="searchbar">
-                <form action="{% url 'ProfilePage' %}" method="post">
+                <form action="{% url 'MessagesPage' %}" method="post">
                 {% csrf_token %}
                 <input type="search" name="user" placeholder="type who you wanna chat with"/>
                 <button>search</button>

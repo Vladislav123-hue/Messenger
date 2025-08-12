@@ -15,7 +15,7 @@ def Login(request):
 
           if user is not None:
                login(request, user)
-               return redirect('ProfilePage')
+               return redirect('MessagesPage')
           else:
                error = "False login or password" 
                return render (request, 'Login.html', {'error' : error})
@@ -49,7 +49,7 @@ def Register(request):
     return render(request, 'Register.html')
      
 
-def ProfileView(request):
+def MessagesView(request):
      myProfile = Profile.objects.get(user__username=request.user.username)
      myChats = myProfile.chats.all()  
      if request.method == "POST":
@@ -60,7 +60,7 @@ def ProfileView(request):
         )
      else:
          results = []
-     return render(request, 'Profile.html', {'results' : results, 'myChats' : myChats})
+     return render(request, 'Messages.html', {'results' : results, 'myChats' : myChats})
 
 def ChatView(request, username):
     speaking_partner_name = User.objects.get(username=username).first_name + " " + User.objects.get(username=username).last_name
