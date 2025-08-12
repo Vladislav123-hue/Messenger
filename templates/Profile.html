@@ -68,6 +68,12 @@
                 {% endfor %}
                 {% endif %}
             </div>
+            <div id="recent-chats">
+                <p>Recent chats:</p>
+                {% for name in myChats %}
+                    <a href="{% url 'ChatPage' name.speaking_partner_username %}">{{name.speaking_partner}}</a>
+                {% endfor %}
+            </div>
         </div>
     </div>
 

@@ -42,13 +42,16 @@ def Register(request):
             return render(request, 'register.html', {'error': error})
 
         # Создаём пользователя
-        User.objects.create_user(username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
+        user = User.objects.create_user(username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
+        Profile.objects.create(user=user)
         return redirect('LoginPage')  # После регистрации — на логин
 
     return render(request, 'Register.html')
      
 
 def ProfileView(request):
+     myProfile = Profile.objects.get(user__username=request.user.username)
+     myChats = myProfile.chats.all()  
      if request.method == "POST":
         query = request.POST.get('user')
         if query:
@@ -57,7 +60,7 @@ def ProfileView(request):
         )
      else:
          results = []
-     return render(request, 'Profile.html', {'results' : results})
+     return render(request, 'Profile.html', {'results' : results, 'myChats' : myChats})
 
 def ChatView(request, username):
     speaking_partner_name = User.objects.get(username=username).first_name + " " + User.objects.get(username=username).last_name
@@ -68,7 +71,8 @@ def ChatView(request, username):
             myProfile = Profile.objects.get(user__username=request.user.username)
             ourChat, _ = Chat.objects.get_or_create(
                 profile=myProfile,
-                speaking_partner=speaking_partner_name
+                speaking_partner=speaking_partner_name,
+                speaking_partner_username = username
             )
             Message.objects.get_or_create(
                 chat=ourChat,
