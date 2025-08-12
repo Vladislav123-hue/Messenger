@@ -57,3 +57,8 @@ def Profile(request):
      else:
          results = []
      return render(request, 'Profile.html', {'results' : results})
+
+def Chat(request, username):
+    speaking_partner_name = User.objects.get(username=username).first_name + " " + User.objects.get(username=username).last_name
+
+    return render(request, 'Chat.html', {'speaking_partner_name' : speaking_partner_name})
