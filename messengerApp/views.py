@@ -64,6 +64,7 @@ def MessagesView(request):
 
 def ChatView(request, username):
     speaking_partner_name = User.objects.get(username=username).first_name + " " + User.objects.get(username=username).last_name
+    my_name = User.objects.get(username=request.user.username).first_name + " " + User.objects.get(username=request.user.username).last_name
     try:
         myProfile = Profile.objects.get(user__username=request.user.username)
         ourChat, _ = Chat.objects.get_or_create(
@@ -90,6 +91,18 @@ def ChatView(request, username):
                 sender=request.user.username, 
                 receiver=username
             )
-            messages = ourChat.messages.all()
+
+            hisProfile = Profile.objects.get(user__username=username)
+            hisChat, _ = Chat.objects.get_or_create(
+                profile=hisProfile,
+                speaking_partner=my_name,
+                speaking_partner_username = request.user.username
+            )
+            Message.objects.get_or_create(
+                chat=hisChat,
+                content=query, 
+                sender=request.user.username, 
+                receiver=username
+            )
     return render(request, 'Chat.html', {'speaking_partner_name': speaking_partner_name, 'messages' : messages})
 
