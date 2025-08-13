@@ -57,7 +57,7 @@ def MessagesView(request):
         if query:
             results = User.objects.filter(
             Q(first_name__icontains=query) | Q(last_name__icontains=query)
-        )
+        ).exclude(username=request.user.username) 
      else:
          results = []
      return render(request, 'Messages.html', {'results' : results, 'myChats' : myChats})
