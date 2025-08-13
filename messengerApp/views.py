@@ -64,7 +64,17 @@ def MessagesView(request):
 
 def ChatView(request, username):
     speaking_partner_name = User.objects.get(username=username).first_name + " " + User.objects.get(username=username).last_name
-    messages = []
+    try:
+        myProfile = Profile.objects.get(user__username=request.user.username)
+        ourChat, _ = Chat.objects.get_or_create(
+            profile=myProfile,
+            speaking_partner=speaking_partner_name,
+            speaking_partner_username = username
+        )
+        messages = ourChat.messages.all()
+    except Chat.DoesNotExist:
+        ourChat = []
+        messages = []
     if request.method == "POST":
         query = request.POST.get('text')
         if query:
