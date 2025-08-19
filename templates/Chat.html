@@ -2,39 +2,132 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Login</title>
+    <title>Chat</title>
     <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            background-color: #4caf50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        /* Chat container */
         #chat {
-            height: 500px;
             width: 1000px;
-            background-color: rgb(237, 237, 237);
+            max-width: 95%;
+            background-color: #ededed;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            height: 500px;
+            overflow-y: scroll;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Individual messages */
+        .message {
+            display: flex;
+            justify-content: flex-start; /* can switch to flex-end for your messages */
+            margin-bottom: 15px;
+        }
+
+        .message .chat-window {
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            max-width: 70%;
+        }
+
+        .chat-window .from {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .chat-window .to {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .chat-window .content {
+            margin-top: 5px;
+            color: #000;
+        }
+
+        /* Chat input form */
+        form {
+            width: 1000px;
+            max-width: 95%;
+            display: flex;
+            margin: 20px 0;
+        }
+
+        form input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+
+        form button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+            transition: background-color 0.3s;
+        }
+
+        form button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-    <header></header><h1>{{speaking_partner_name}}</h1></header>
+    <header>Chat</header>
+    <h1>{{speaking_partner_name}}</h1>
+
     <div id="chat">
         {% if messages %}
             {% for item in messages %}
-            <div id="message">
-                <div id="from">
-                    From: {{item.sender}}
-                </div><br>
-                <div id="to">
-                    To: {{item.receiver}}
-                </div><br>
-                <div id="message">
-                    Message: {{item.content}}
-                </div><br>
+            <div class="message">
+                <div class="chat-window">
+                    <div class="from">From: {{item.sender}}</div>
+                    <div class="to">To: {{item.receiver}}</div>
+                    <div class="content">Message: {{item.content}}</div>
+                </div>
             </div>
             {% endfor %}
+        {% else %}
+            <p>No messages yet. Start the conversation!</p>
         {% endif %}
     </div>
+
     <form action="" method="post">
         {% csrf_token %}
-        <input type="text" name="text" placeholder="type your text here">
+        <input type="text" name="text" placeholder="Type your message here">
         <button>Send</button>
     </form>
-    
 </body>
 </html>
