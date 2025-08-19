@@ -50,8 +50,8 @@ def Register(request):
      
 
 def MessagesView(request):
-     myProfile = Profile.objects.get(user__username=request.user.username)
-     myChats = myProfile.chats.all()  
+     my_profile = Profile.objects.get(user__username=request.user.username)
+     my_chats = my_profile.chats.all()  
      if request.method == "POST":
         query = request.POST.get('user')
         if query:
@@ -60,15 +60,15 @@ def MessagesView(request):
         ).exclude(username=request.user.username) 
      else:
          results = []
-     return render(request, 'Messages.html', {'results' : results, 'myChats' : myChats})
+     return render(request, 'Messages.html', {'results' : results, 'my_chats' : my_chats})
 
 def ChatView(request, username):
     speaking_partner_name = User.objects.get(username=username).first_name + " " + User.objects.get(username=username).last_name
     my_name = User.objects.get(username=request.user.username).first_name + " " + User.objects.get(username=request.user.username).last_name
     try:
-        myProfile = Profile.objects.get(user__username=request.user.username)
+        my_profile = Profile.objects.get(user__username=request.user.username)
         ourChat, _ = Chat.objects.get_or_create(
-            profile=myProfile,
+            profile=my_profile,
             speaking_partner=speaking_partner_name,
             speaking_partner_username = username
         )
@@ -79,9 +79,9 @@ def ChatView(request, username):
     if request.method == "POST":
         query = request.POST.get('text')
         if query:
-            myProfile = Profile.objects.get(user__username=request.user.username)
+            my_profile = Profile.objects.get(user__username=request.user.username)
             ourChat, _ = Chat.objects.get_or_create(
-                profile=myProfile,
+                profile=my_profile,
                 speaking_partner=speaking_partner_name,
                 speaking_partner_username = username
             )
@@ -92,14 +92,14 @@ def ChatView(request, username):
                 receiver=username
             )
 
-            hisProfile = Profile.objects.get(user__username=username)
-            hisChat, _ = Chat.objects.get_or_create(
-                profile=hisProfile,
+            his_profile = Profile.objects.get(user__username=username)
+            his_chat, _ = Chat.objects.get_or_create(
+                profile=his_profile,
                 speaking_partner=my_name,
                 speaking_partner_username = request.user.username
             )
             Message.objects.get_or_create(
-                chat=hisChat,
+                chat=his_chat,
                 content=query, 
                 sender=request.user.username, 
                 receiver=username
