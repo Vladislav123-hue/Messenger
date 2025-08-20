@@ -43,19 +43,26 @@
         }
 
         /* Individual messages */
-        .message {
-            display: flex;
-            justify-content: flex-start; /* can switch to flex-end for your messages */
-            margin-bottom: 15px;
-        }
+        .message, .message-my {
+    display: flex;
+    margin-bottom: 15px;
+}
 
-        .message .chat-window {
-            background-color: white;
-            padding: 10px 15px;
-            border-radius: 10px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            max-width: 70%;
-        }
+.message {
+    justify-content: flex-start;
+}
+
+.message-my {
+    justify-content: flex-end;
+}
+
+.chat-window {
+    background-color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    max-width: 70%;
+}
 
         .chat-window .from {
             font-weight: bold;
@@ -111,6 +118,7 @@
     <div id="chat">
         {% if messages %}
             {% for item in messages %}
+            {% if item.sender == request.user.username %}
             <div class="message">
                 <div class="chat-window">
                     <div class="from">From: {{item.sender}}</div>
@@ -118,6 +126,15 @@
                     <div class="content">Message: {{item.content}}</div>
                 </div>
             </div>
+            {% else %}
+            <div class="message-my">
+                <div class="chat-window">
+                    <div class="from">From: {{item.sender}}</div>
+                    <div class="to">To: {{item.receiver}}</div>
+                    <div class="content">Message: {{item.content}}</div>
+                </div>
+            </div>
+            {% endif %}
             {% endfor %}
         {% else %}
             <p>No messages yet. Start the conversation!</p>
