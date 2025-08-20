@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>Chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         body {
             margin: 0;
@@ -56,8 +57,15 @@
     justify-content: flex-end;
 }
 
-.chat-window {
-    background-color: white;
+.message .chat-window {
+    background-color: rgb(205, 204, 204);
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    max-width: 70%;
+}
+.message-my .chat-window {
+    background-color: rgb(55, 249, 77);
     padding: 10px 15px;
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -77,6 +85,12 @@
         .chat-window .content {
             margin-top: 5px;
             color: #000;
+        }
+
+        .chat-window .trash {
+            margin-top: 5px;
+            display: flex;
+            justify-content: end;
         }
 
         /* Chat input form */
@@ -119,15 +133,18 @@
         {% if messages %}
             {% for item in messages %}
             {% if item.sender == request.user.username %}
-            <div class="message">
+            <div class="message-my">
                 <div class="chat-window">
                     <div class="from">From: {{item.sender}}</div>
                     <div class="to">To: {{item.receiver}}</div>
                     <div class="content">Message: {{item.content}}</div>
+                    <div class="trash">
+                        <a href="{% url 'DeleteMessage' item.id item.receiver %}"><i class="fa-solid fa-trash"></i></a>
+                    </div>
                 </div>
             </div>
             {% else %}
-            <div class="message-my">
+            <div class="message">
                 <div class="chat-window">
                     <div class="from">From: {{item.sender}}</div>
                     <div class="to">To: {{item.receiver}}</div>
@@ -140,7 +157,8 @@
             <p>No messages yet. Start the conversation!</p>
         {% endif %}
     </div>
-
+    {% block modal %} 
+{% endblock %}
     <form action="" method="post">
         {% csrf_token %}
         <input type="text" name="text" placeholder="Type your message here">

@@ -91,7 +91,6 @@ def ChatView(request, username):
                 sender=request.user.username, 
                 receiver=username
             )
-
             his_profile = Profile.objects.get(user__username=username)
             his_chat, _ = Chat.objects.get_or_create(
                 profile=his_profile,
@@ -106,3 +105,19 @@ def ChatView(request, username):
             )
     return render(request, 'Chat.html', {'speaking_partner_name': speaking_partner_name, 'messages' : messages})
 
+def MessageDelete(request, message_id, username):
+    message = Message.objects.get(id=message_id)
+    chat = message.chat
+    messages = chat.messages.all()
+    speaking_partner_name = chat.speaking_partner
+    return render(request, 'DeletePage.html', {
+        'messages': messages,
+        'speaking_partner_name': speaking_partner_name,
+        'message': message,
+        'username': username
+    })
+
+def Message_delete_confirm(request, message_id, username):
+    my_message = Message.objects.get(id=message_id)
+    my_message.delete()
+    return redirect('ChatPage', username=username)
