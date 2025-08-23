@@ -11,5 +11,9 @@ urlpatterns = [
     path('messages/chat/delete_message/<int:message_id>/<str:username>/<int:his_message_id>',
          views.MessageDelete, name="DeleteMessage"),
     path('messages/chat/delete_message_confirm/<int:message_id>/<str:username>/<int:his_message_id>',
-         views.Message_delete_confirm, name="DeleteMessageConfirm")
+         views.Message_delete_confirm, name="DeleteMessageConfirm"),
+    path('messages/chat/edit_message/<int:message_id>/<str:username>/<int:his_message_id>',
+         views.MessageEdit, name="EditMessage"),
+    path('messages/chat/edit_message_confirm/<int:message_id>/<str:username>',
+         views.MessageEditConfirm, name="EditConfirm"),
 ]

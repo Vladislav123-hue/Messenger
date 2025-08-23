@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         body {
             margin: 0;
@@ -27,7 +28,8 @@
         /* Middle section */
         #middle-section {
             display: flex;
-            min-height: calc(100vh - 80px); /* full height minus header/footer */
+            min-height: calc(100vh - 80px);
+            /* full height minus header/footer */
         }
 
         /* Sidebar menu */
@@ -91,7 +93,8 @@
         }
 
         /* People list */
-        #people, #recent-chats {
+        #people,
+        #recent-chats {
             background-color: #dceffa;
             padding: 15px;
             border-radius: 10px;
@@ -99,7 +102,8 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        #people a, #recent-chats a {
+        #people a,
+        #recent-chats a {
             display: block;
             text-decoration: none;
             color: #333;
@@ -107,9 +111,11 @@
             border-radius: 5px;
             margin-bottom: 5px;
             transition: background-color 0.2s;
+
         }
 
-        #people a:hover, #recent-chats a:hover {
+        #people a:hover,
+        #recent-chats a:hover {
             background-color: #b3e5fc;
         }
 
@@ -117,6 +123,30 @@
         #recent-chats p {
             font-weight: bold;
             margin-bottom: 10px;
+        }
+
+        .chat-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* имя слева, мусорка справа */
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            background-color: #fff;
+            /* чтобы выглядело как одна строка */
+            transition: background-color 0.2s;
+            width: 200px;
+        }
+
+        .chat-item:hover {
+            background-color: #b3e5fc;
+        }
+
+        .chat-item a {
+            text-decoration: none;
+            color: #333;
+            margin: 0 5px;
         }
 
         /* Footer */
@@ -138,22 +168,25 @@
         <div id="people-and-searchbar">
             <div id="searchbar">
                 <form action="{% url 'MessagesPage' %}" method="post">
-                {% csrf_token %}
-                <input type="search" name="user" placeholder="type who you wanna chat with"/>
-                <button>search</button>
+                    {% csrf_token %}
+                    <input type="search" name="user" placeholder="type who you wanna chat with" />
+                    <button>search</button>
                 </form>
             </div>
             <div id="people">
-                {% if results %} 
+                {% if results %}
                 {% for user in results %}
-                    <a href="{% url 'ChatPage' user.username %}">{{user.first_name}} {{user.last_name}}</a>
+                <a href="{% url 'ChatPage' user.username %}">{{user.first_name}} {{user.last_name}}</a>
                 {% endfor %}
                 {% endif %}
             </div>
             <div id="recent-chats">
                 <p>Recent chats:</p>
                 {% for name in my_chats %}
+                <div class="chat-item">
                     <a href="{% url 'ChatPage' name.speaking_partner_username %}">{{name.speaking_partner}}</a>
+                    <a href="#"><i class="fa-solid fa-trash"></i></a>
+                </div>
                 {% endfor %}
             </div>
         </div>

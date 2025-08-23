@@ -144,3 +144,33 @@ def Message_delete_confirm(request, message_id, username, his_message_id):
     his_message = Message.objects.get(id=his_message_id)
     his_message.delete()
     return redirect('ChatPage', username=username)
+
+
+@login_required
+def MessageEdit(request, message_id, username, his_message_id):
+    my_message = Message.objects.get(id=message_id)
+    his_message = Message.objects.get(id=his_message_id)
+
+    chat = my_message.chat
+    messages = chat.messages.all()
+    speaking_partner_name = chat.speaking_partner
+    return render(request, 'EditPage.html', {
+        'messages': messages,
+        'speaking_partner_name': speaking_partner_name,
+        'message': my_message,
+        'his_message': his_message,
+        'username': username
+    })
+
+
+@login_required
+def MessageEditConfirm(request, message_id, username):
+    edited_value = request.POST.get('edited')
+
+    my_message = Message.objects.get(id=message_id)
+
+    my_message.content = edited_value
+
+    my_message.save(update_fields=["content"])
+
+    return redirect('ChatPage', username=username)
