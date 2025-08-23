@@ -164,7 +164,7 @@ def MessageEdit(request, message_id, username, his_message_id):
 
 
 @login_required
-def MessageEditConfirm(request, message_id, username):
+def MessageEditConfirm(request, message_id, username, his_message_id):
     edited_value = request.POST.get('edited')
 
     my_message = Message.objects.get(id=message_id)
@@ -172,5 +172,11 @@ def MessageEditConfirm(request, message_id, username):
     my_message.content = edited_value
 
     my_message.save(update_fields=["content"])
+
+    his_message = Message.objects.get(id=his_message_id)
+
+    his_message.content = edited_value
+
+    his_message.save(update_fields=["content"])
 
     return redirect('ChatPage', username=username)
