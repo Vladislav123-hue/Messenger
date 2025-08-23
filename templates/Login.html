@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8" />
     <title>Login</title>
 </head>
+
 <body>
-{% block content %}
+    {% block content %}
 
     <style>
-
         body {
             margin: 0;
             height: 100vh;
@@ -99,20 +100,21 @@
         {% csrf_token %}
 
         <h2>Login</h2>
-        
+
         <p>Username</p>
-        <input name="Username" placeholder="Enter your username" required />
-        
+        <input name="Username" type="text" placeholder="Enter your username" required />
+
         <p>Password</p>
-        <input name="Password" placeholder="Enter your password" required />
-        
+        <input name="Password" type="password" placeholder="Enter your password" required />
+
         <button>Login</button>
         <a href="{% url 'RegisterPage' %}" id="register-link">Don't have an account? Register!</a>
         {% if error %}
-         <div class="error-message">{{ error }}</div>
-    {% endif %}
-{% endblock %}
+        <div class="error-message">{{ error }}</div>
+        {% endif %}
+        {% endblock %}
     </form>
-    
+
 </body>
+
 </html>

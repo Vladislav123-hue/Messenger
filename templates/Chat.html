@@ -90,7 +90,7 @@
             color: #000;
         }
 
-        .chat-window .trash {
+        .chat-window .actions {
             margin-top: 5px;
             display: flex;
             justify-content: end;
@@ -142,9 +142,10 @@
                 <div class="from">From: {{item.sender}}</div>
                 <div class="to">To: {{item.receiver}}</div>
                 <div class="content">Message: {{item.content}}</div>
-                <div class="trash">
+                <div class="actions">
                     <a href="{% url 'DeleteMessage' item.id item.receiver item.his_message_id %}"><i
                             class="fa-solid fa-trash"></i></a>
+                    <a href=""><i class="fa-solid fa-pencil"></i></a>
                 </div>
             </div>
         </div>
