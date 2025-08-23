@@ -2,60 +2,60 @@
 
 {% block modal %}
 <style>
-/* Затемнённый фон */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
+    /* Затемнённый фон */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
 
-/* Окно подтверждения */
-.delete-window {
-    background-color: white;
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-}
+    /* Окно подтверждения */
+    .delete-window {
+        background-color: white;
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+    }
 
-/* Кнопки */
-.choice {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-around;
-}
+    /* Кнопки */
+    .choice {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+    }
 
-.choice a {
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    color: white;
-    background-color: #4caf50;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
+    .choice a {
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: white;
+        background-color: #4caf50;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
 
-.choice a:hover {
-    background-color: #45a049;
-}
+    .choice a:hover {
+        background-color: #45a049;
+    }
 
-/* Кнопка "No" другого цвета */
-.choice a.no {
-    background-color: #f44336;
-}
+    /* Кнопка "No" другого цвета */
+    .choice a.no {
+        background-color: #f44336;
+    }
 
-.choice a.no:hover {
-    background-color: #d32f2f;
-}
+    .choice a.no:hover {
+        background-color: #d32f2f;
+    }
 </style>
 
 <div class="modal-overlay">
@@ -63,7 +63,7 @@
         <p>Are you sure you want to delete this message?</p>
         <div class="choice">
             <!-- Используем message.id и username из контекста -->
-            <a href="{% url 'DeleteMessageConfirm' message.id username %}">Yes</a>
+            <a href="{% url 'DeleteMessageConfirm' message.id username his_message.id %}">Yes</a>
             <a class="no" href="{% url 'ChatPage' username=username %}">No</a>
         </div>
     </div>

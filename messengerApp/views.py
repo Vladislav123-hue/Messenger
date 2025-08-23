@@ -95,11 +95,11 @@ def ChatView(request, username):
                 speaking_partner=speaking_partner_name,
                 speaking_partner_username=username
             )
-            Message.objects.get_or_create(
+            my_message = Message.objects.create(
                 chat=ourChat,
                 content=query,
                 sender=request.user.username,
-                receiver=username
+                receiver=username,
             )
             his_profile = Profile.objects.get(user__username=username)
             his_chat, _ = Chat.objects.get_or_create(
@@ -107,31 +107,40 @@ def ChatView(request, username):
                 speaking_partner=my_name,
                 speaking_partner_username=request.user.username
             )
-            Message.objects.get_or_create(
+            his_message = Message.objects.create(
                 chat=his_chat,
                 content=query,
                 sender=request.user.username,
-                receiver=username
+                receiver=username,
+                his_message_id=my_message.id
             )
+            my_message.his_message_id = his_message.id
+            my_message.save(update_fields=["his_message_id"])
     return render(request, 'Chat.html', {'speaking_partner_name': speaking_partner_name, 'messages': messages})
 
 
 @login_required
-def MessageDelete(request, message_id, username):
-    message = Message.objects.get(id=message_id)
-    chat = message.chat
+def MessageDelete(request, message_id, username, his_message_id):
+    my_message = Message.objects.get(id=message_id)
+    his_message = Message.objects.get(id=his_message_id)
+
+    chat = my_message.chat
     messages = chat.messages.all()
     speaking_partner_name = chat.speaking_partner
     return render(request, 'DeletePage.html', {
         'messages': messages,
         'speaking_partner_name': speaking_partner_name,
-        'message': message,
+        'message': my_message,
+        'his_message': his_message,
         'username': username
     })
 
 
 @login_required
-def Message_delete_confirm(request, message_id, username):
+def Message_delete_confirm(request, message_id, username, his_message_id):
     my_message = Message.objects.get(id=message_id)
     my_message.delete()
+
+    his_message = Message.objects.get(id=his_message_id)
+    his_message.delete()
     return redirect('ChatPage', username=username)
