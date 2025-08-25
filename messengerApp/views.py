@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.models import Q
-from .models import Profile, Chat, Message
+from .models import Profile, Chat, Message, BlockedUsers
 from django.contrib.auth.decorators import login_required
 
 
@@ -75,6 +75,14 @@ def ChatView(request, username):
         username=username).first_name + " " + User.objects.get(username=username).last_name
     my_name = User.objects.get(username=request.user.username).first_name + \
         " " + User.objects.get(username=request.user.username).last_name
+    my_profile = Profile.objects.get(user__username=request.user.username)
+    blocked = BlockedUsers.objects.filter(
+        profile=my_profile, username=username).exists()
+
+    his_profile = Profile.objects.get(user__username=username)
+    youAreBlocked = BlockedUsers.objects.filter(
+        profile=his_profile, username=request.user.username).exists()
+
     try:
         my_profile = Profile.objects.get(user__username=request.user.username)
         ourChat, _ = Chat.objects.get_or_create(
@@ -117,7 +125,7 @@ def ChatView(request, username):
             )
             my_message.his_message_id = his_message.id
             my_message.save(update_fields=["his_message_id"])
-    return render(request, 'Chat.html', {'speaking_partner_name': speaking_partner_name, 'messages': messages})
+    return render(request, 'Chat.html', {'speaking_partner_name': speaking_partner_name, 'messages': messages, 'blocked': blocked, 'username': username, 'youAreBlocked': youAreBlocked})
 
 
 @login_required
@@ -194,3 +202,19 @@ def DeleteChatConfirm(request, chat_id):
 def logout_view(request):
     logout(request)
     return redirect("LoginPage")
+
+
+@login_required
+def BlockUser(request, username):
+    my_profile = Profile.objects.get(user__username=request.user.username)
+    BlockedUsers.objects.create(
+        profile=my_profile, username=username)
+    return redirect('ChatPage', username=username)
+
+
+@login_required
+def UnblockUser(request, username):
+    my_profile = Profile.objects.get(user__username=request.user.username)
+    BlockedUsers.objects.get(
+        profile=my_profile, username=username).delete()
+    return redirect('ChatPage', username=username)

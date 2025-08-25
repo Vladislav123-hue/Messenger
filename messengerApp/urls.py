@@ -20,5 +20,7 @@ urlpatterns = [
          views.DeleteChat, name="DeleteChat"),
     path('messages/chat/delete_chat_confirm/<int:chat_id>',
          views.DeleteChatConfirm, name="DeleteChatConfirm"),
-    path("logout/", views.logout_view, name="logout")
+    path("logout/", views.logout_view, name="logout"),
+    path("block/<str:username>", views.BlockUser, name="blockUser"),
+    path("unblock/<str:username>", views.UnblockUser, name="unblockUser")
 ]

@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Profile, Chat, Message
+from .models import Profile, Chat, Message, BlockedUsers
 
 admin.site.register(Profile)
 admin.site.register(Chat)
 admin.site.register(Message)
+admin.site.register(BlockedUsers)

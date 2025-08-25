@@ -135,6 +135,15 @@
         <i class="fa-solid fa-arrow-left"></i> Back
     </a>
     <h1>{{speaking_partner_name}}</h1>
+    {% if blocked %}
+    <a href="{% url 'unblockUser' username %}" class="back-btn">
+        <i class="fa-solid fa-unlock"></i> Unblock
+    </a>
+    {% else %}
+    <a href="{% url 'blockUser' username %}" class="back-btn">
+        <i class="fa-solid fa-ban"></i> Block
+    </a>
+    {% endif %}
 
     <div id="chat">
         {% if messages %}
@@ -169,11 +178,24 @@
     </div>
     {% block modal %}
     {% endblock %}
+
+    {% if blocked %}
+    <form action="" method="post">
+        The user is blocked
+    </form>
+
+    {% elif youAreBlocked %}
+    <form action="" method="post">
+        The user blocked you
+    </form>
+
+    {% else %}
     <form action="" method="post">
         {% csrf_token %}
         <input type="text" name="text" placeholder="Type your message here">
         <button>Send</button>
     </form>
+    {% endif %}
 </body>
 
 </html>

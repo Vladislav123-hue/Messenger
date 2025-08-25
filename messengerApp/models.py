@@ -6,6 +6,12 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 
+class BlockedUsers(models.Model):
+    profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name='blockedUsers')
+    username = models.CharField(max_length=100, null=True, blank=True)
+
+
 class Chat(models.Model):
     profile = models.ForeignKey(
         Profile, on_delete=models.CASCADE, related_name='chats')
