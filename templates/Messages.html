@@ -185,13 +185,14 @@
                 {% for name in my_chats %}
                 <div class="chat-item">
                     <a href="{% url 'ChatPage' name.speaking_partner_username %}">{{name.speaking_partner}}</a>
-                    <a href="#"><i class="fa-solid fa-trash"></i></a>
+                    <a href="{% url 'DeleteChat' name.id %}"><i class="fa-solid fa-trash"></i></a>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </div>
-
+    {% block modal %}
+    {% endblock %}
     <footer></footer>
 
 

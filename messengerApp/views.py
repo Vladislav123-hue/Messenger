@@ -166,17 +166,25 @@ def MessageEdit(request, message_id, username, his_message_id):
 @login_required
 def MessageEditConfirm(request, message_id, username, his_message_id):
     edited_value = request.POST.get('edited')
-
     my_message = Message.objects.get(id=message_id)
-
     my_message.content = edited_value
-
     my_message.save(update_fields=["content"])
-
     his_message = Message.objects.get(id=his_message_id)
-
     his_message.content = edited_value
-
     his_message.save(update_fields=["content"])
 
     return redirect('ChatPage', username=username)
+
+
+@login_required
+def DeleteChat(request, chat_id):
+    chat = Chat.objects.get(id=chat_id)
+    return render(request, 'DeleteChat.html', {'chat': chat})
+
+
+@login_required
+def DeleteChatConfirm(request, chat_id):
+    my_chat = Chat.objects.get(id=chat_id)
+    my_chat.delete()
+
+    return redirect('MessagesPage')
