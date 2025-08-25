@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.models import Q
 from .models import Profile, Chat, Message
 from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -188,3 +189,8 @@ def DeleteChatConfirm(request, chat_id):
     my_chat.delete()
 
     return redirect('MessagesPage')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("LoginPage")

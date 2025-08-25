@@ -57,6 +57,18 @@
             background-color: rgba(255, 255, 255, 0.2);
         }
 
+        #menu .logout-btn {
+            margin-top: auto;
+            /* кнопка уходит вниз меню */
+            background-color: #b30000;
+            text-align: center;
+            width: 100px;
+        }
+
+        #menu .logout-btn:hover {
+            background-color: #800000;
+        }
+
         /* People and search section */
         #people-and-searchbar {
             display: flex;
@@ -164,6 +176,9 @@
         <div id="menu">
             <a hred="">Profile</a>
             <a hred="">Messages</a>
+            <a href="{% url 'logout' %}" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
         </div>
         <div id="people-and-searchbar">
             <div id="searchbar">
