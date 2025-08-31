@@ -2,7 +2,7 @@
 
 {% block modal %}
 <style>
-    /* Затемнённый фон */
+    /* Darkened background overlay */
     .modal-overlay {
         position: fixed;
         top: 0;
@@ -10,14 +10,16 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
+        /* semi-transparent black */
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 1000;
+        /* ensure it's on top of the page */
     }
 
-    /* Окно подтверждения */
-    .delete-window {
+    /* Edit window */
+    .edit-window {
         background-color: white;
         padding: 30px 40px;
         border-radius: 10px;
@@ -27,41 +29,40 @@
         width: 90%;
     }
 
-    /* Кнопки */
-    .choice {
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-around;
+    /* Input field inside edit modal */
+    .edit-window input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 15px;
     }
 
-    .choice a {
+    /* Edit button */
+    .edit-window button {
         padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        color: white;
+        border: none;
         background-color: #4caf50;
+        /* green = confirm edit */
+        color: white;
         font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
         transition: background-color 0.3s;
     }
 
-    .choice a:hover {
+    .edit-window button:hover {
         background-color: #45a049;
-    }
-
-    /* Кнопка "No" другого цвета */
-    .choice a.no {
-        background-color: #f44336;
-    }
-
-    .choice a.no:hover {
-        background-color: #d32f2f;
     }
 </style>
 
+<!-- Modal structure -->
 <div class="modal-overlay">
     <div class="edit-window">
+        <!-- Form to confirm message edit -->
         <form method="post" action="{% url 'EditConfirm' message.id username his_message.id %}">
             {% csrf_token %}
+            <!-- Pre-fill input with current message text -->
             <input type="text" name="edited" value="{{ message.content }}">
             <button>Edit</button>
         </form>

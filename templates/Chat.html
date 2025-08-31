@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8" />
     <title>Chat</title>
+    <!-- Import Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
+        /* General page styling */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -15,6 +18,7 @@
             align-items: center;
         }
 
+        /* Header bar */
         header {
             width: 100%;
             background-color: #4caf50;
@@ -26,6 +30,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
+        /* Chat partner’s name */
         h1 {
             margin-top: 20px;
             color: #333;
@@ -44,21 +49,24 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Individual messages */
+        /* Message blocks: my vs. others */
         .message,
         .message-my {
             display: flex;
             margin-bottom: 15px;
         }
 
+        /* Other user's messages on the left */
         .message {
             justify-content: flex-start;
         }
 
+        /* My messages on the right */
         .message-my {
             justify-content: flex-end;
         }
 
+        /* Chat bubble for other user's messages */
         .message .chat-window {
             background-color: rgb(205, 204, 204);
             padding: 10px 15px;
@@ -67,6 +75,7 @@
             max-width: 70%;
         }
 
+        /* Chat bubble for my messages */
         .message-my .chat-window {
             background-color: rgb(55, 249, 77);
             padding: 10px 15px;
@@ -75,28 +84,32 @@
             max-width: 70%;
         }
 
+        /* Sender label */
         .chat-window .from {
             font-weight: bold;
             color: #333;
         }
 
+        /* Receiver label */
         .chat-window .to {
             font-weight: bold;
             color: #555;
         }
 
+        /* Actual message content */
         .chat-window .content {
             margin-top: 5px;
             color: #000;
         }
 
+        /* Action buttons: edit, delete */
         .chat-window .actions {
             margin-top: 5px;
             display: flex;
             justify-content: end;
         }
 
-        /* Chat input form */
+        /* Message input form container */
         form {
             width: 1000px;
             max-width: 95%;
@@ -104,6 +117,7 @@
             margin: 20px 0;
         }
 
+        /* Text input field */
         form input[type="text"] {
             flex: 1;
             padding: 10px;
@@ -112,6 +126,7 @@
             outline: none;
         }
 
+        /* Send button */
         form button {
             padding: 10px 20px;
             border: none;
@@ -130,11 +145,18 @@
 </head>
 
 <body>
+    <!-- Page header -->
     <header>Chat</header>
+
+    <!-- Back to messages button -->
     <a href="{% url 'MessagesPage' %}" class="back-btn">
         <i class="fa-solid fa-arrow-left"></i> Back
     </a>
+
+    <!-- Display chat partner's name -->
     <h1>{{speaking_partner_name}}</h1>
+
+    <!-- Block/Unblock user toggle -->
     {% if blocked %}
     <a href="{% url 'unblockUser' username %}" class="back-btn">
         <i class="fa-solid fa-unlock"></i> Unblock
@@ -145,24 +167,29 @@
     </a>
     {% endif %}
 
+    <!-- Chat history -->
     <div id="chat">
         {% if messages %}
         {% for item in messages %}
         {% if item.sender == request.user.username %}
+        <!-- My message -->
         <div class="message-my">
             <div class="chat-window">
                 <div class="from">From: {{item.sender}}</div>
                 <div class="to">To: {{item.receiver}}</div>
                 <div class="content">Message: {{item.content}}</div>
                 <div class="actions">
+                    <!-- Delete message -->
                     <a href="{% url 'DeleteMessage' item.id item.receiver item.his_message_id %}"><i
                             class="fa-solid fa-trash"></i></a>
+                    <!-- Edit message -->
                     <a href="{% url 'EditMessage' item.id item.receiver item.his_message_id %}"><i
                             class="fa-solid fa-pencil"></i></a>
                 </div>
             </div>
         </div>
         {% else %}
+        <!-- Partner's message -->
         <div class="message">
             <div class="chat-window">
                 <div class="from">From: {{item.sender}}</div>
@@ -173,12 +200,16 @@
         {% endif %}
         {% endfor %}
         {% else %}
+        <!-- If no messages -->
         <p>No messages yet. Start the conversation!</p>
         {% endif %}
     </div>
+
+    <!-- Placeholder for modal (optional dialogs) -->
     {% block modal %}
     {% endblock %}
 
+    <!-- Input field depending on block status -->
     {% if blocked %}
     <form action="" method="post">
         The user is blocked
@@ -190,6 +221,7 @@
     </form>
 
     {% else %}
+    <!-- Normal chat input -->
     <form action="" method="post">
         {% csrf_token %}
         <input type="text" name="text" placeholder="Type your message here">
