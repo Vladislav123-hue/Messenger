@@ -10,12 +10,11 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        /* semi-transparent black */
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 1000;
-        /* ensure it's on top of the page */
+        padding: 10px;
     }
 
     /* Edit window */
@@ -32,27 +31,61 @@
     /* Input field inside edit modal */
     .edit-window input[type="text"] {
         width: 100%;
-        padding: 10px;
+        padding: 12px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
+        font-size: 16px;
     }
 
     /* Edit button */
     .edit-window button {
-        padding: 10px 20px;
+        width: 100%;
+        padding: 12px;
         border: none;
         background-color: #4caf50;
-        /* green = confirm edit */
         color: white;
         font-weight: bold;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s;
+        font-size: 16px;
     }
 
     .edit-window button:hover {
         background-color: #45a049;
+    }
+
+    /* 📱 Tablet adjustments */
+    @media (max-width: 768px) {
+        .edit-window {
+            padding: 20px;
+        }
+
+        .edit-window input[type="text"] {
+            font-size: 15px;
+        }
+
+        .edit-window button {
+            font-size: 15px;
+        }
+    }
+
+    /* 📱 Phone adjustments */
+    @media (max-width: 480px) {
+        .edit-window {
+            padding: 15px;
+        }
+
+        .edit-window input[type="text"] {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .edit-window button {
+            padding: 10px;
+            font-size: 14px;
+        }
     }
 </style>
 

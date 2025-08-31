@@ -10,12 +10,11 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        /* semi-transparent black */
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 1000;
-        /* make sure it appears above everything else */
+        padding: 10px;
     }
 
     /* Confirmation window */
@@ -29,11 +28,20 @@
         width: 90%;
     }
 
+    /* Text inside modal */
+    .delete-window p {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
     /* Container for Yes/No buttons */
     .choice {
         margin-top: 20px;
         display: flex;
-        justify-content: space-around;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
     }
 
     /* General button style */
@@ -43,9 +51,11 @@
         text-decoration: none;
         color: white;
         background-color: #4caf50;
-        /* green = positive action */
         font-weight: bold;
         transition: background-color 0.3s;
+        flex: 1;
+        min-width: 100px;
+        text-align: center;
     }
 
     /* Hover effect for Yes button */
@@ -61,6 +71,44 @@
     .choice a.no:hover {
         background-color: #d32f2f;
     }
+
+    /* 📱 Tablet adjustments */
+    @media (max-width: 768px) {
+        .delete-window {
+            padding: 20px;
+        }
+
+        .delete-window p {
+            font-size: 16px;
+        }
+
+        .choice {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .choice a {
+            width: 100%;
+            font-size: 16px;
+            padding: 12px;
+        }
+    }
+
+    /* 📱 Small phone adjustments */
+    @media (max-width: 480px) {
+        .delete-window {
+            padding: 15px;
+        }
+
+        .delete-window p {
+            font-size: 14px;
+        }
+
+        .choice a {
+            font-size: 14px;
+            padding: 10px;
+        }
+    }
 </style>
 
 <!-- Modal structure -->
@@ -68,9 +116,7 @@
     <div class="delete-window">
         <p>Are you sure you want to delete this message?</p>
         <div class="choice">
-            <!-- "Yes" calls delete confirmation route -->
             <a href="{% url 'DeleteMessageConfirm' message.id username his_message.id %}">Yes</a>
-            <!-- "No" goes back to chat page -->
             <a class="no" href="{% url 'ChatPage' username=username %}">No</a>
         </div>
     </div>

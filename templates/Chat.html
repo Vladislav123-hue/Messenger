@@ -34,6 +34,7 @@
         h1 {
             margin-top: 20px;
             color: #333;
+            font-size: 24px;
         }
 
         /* Chat container */
@@ -45,28 +46,26 @@
             margin-top: 20px;
             border-radius: 10px;
             height: 500px;
-            overflow-y: scroll;
+            overflow-y: auto;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Message blocks: my vs. others */
+        /* Message blocks */
         .message,
         .message-my {
             display: flex;
             margin-bottom: 15px;
         }
 
-        /* Other user's messages on the left */
         .message {
             justify-content: flex-start;
         }
 
-        /* My messages on the right */
         .message-my {
             justify-content: flex-end;
         }
 
-        /* Chat bubble for other user's messages */
+        /* Chat bubble for other user */
         .message .chat-window {
             background-color: rgb(205, 204, 204);
             padding: 10px 15px;
@@ -75,7 +74,7 @@
             max-width: 70%;
         }
 
-        /* Chat bubble for my messages */
+        /* Chat bubble for me */
         .message-my .chat-window {
             background-color: rgb(55, 249, 77);
             padding: 10px 15px;
@@ -84,32 +83,30 @@
             max-width: 70%;
         }
 
-        /* Sender label */
         .chat-window .from {
             font-weight: bold;
             color: #333;
         }
 
-        /* Receiver label */
         .chat-window .to {
             font-weight: bold;
             color: #555;
         }
 
-        /* Actual message content */
         .chat-window .content {
             margin-top: 5px;
             color: #000;
+            word-wrap: break-word;
         }
 
-        /* Action buttons: edit, delete */
         .chat-window .actions {
             margin-top: 5px;
             display: flex;
+            gap: 10px;
             justify-content: end;
         }
 
-        /* Message input form container */
+        /* Message input form */
         form {
             width: 1000px;
             max-width: 95%;
@@ -117,7 +114,6 @@
             margin: 20px 0;
         }
 
-        /* Text input field */
         form input[type="text"] {
             flex: 1;
             padding: 10px;
@@ -126,7 +122,6 @@
             outline: none;
         }
 
-        /* Send button */
         form button {
             padding: 10px 20px;
             border: none;
@@ -140,6 +135,97 @@
 
         form button:hover {
             background-color: #45a049;
+        }
+
+        /* Buttons like Back, Block */
+        .back-btn {
+            margin-top: 15px;
+            text-decoration: none;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* ============================
+           RESPONSIVENESS
+        ============================ */
+
+        /* Tablets */
+        @media (max-width: 768px) {
+            header {
+                font-size: 20px;
+                padding: 15px 0;
+            }
+
+            h1 {
+                font-size: 20px;
+                text-align: center;
+            }
+
+            #chat {
+                height: 400px;
+                padding: 15px;
+            }
+
+            form {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            form input[type="text"] {
+                border-radius: 5px;
+            }
+
+            form button {
+                border-radius: 5px;
+                width: 100%;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            header {
+                font-size: 18px;
+                padding: 10px 0;
+            }
+
+            h1 {
+                font-size: 18px;
+            }
+
+            #chat {
+                height: 300px;
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .chat-window {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+
+            form {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            form input[type="text"] {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            form button {
+                font-size: 14px;
+                padding: 8px;
+                width: 100%;
+            }
+
+            .back-btn {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -179,10 +265,8 @@
                 <div class="to">To: {{item.receiver}}</div>
                 <div class="content">Message: {{item.content}}</div>
                 <div class="actions">
-                    <!-- Delete message -->
                     <a href="{% url 'DeleteMessage' item.id item.receiver item.his_message_id %}"><i
                             class="fa-solid fa-trash"></i></a>
-                    <!-- Edit message -->
                     <a href="{% url 'EditMessage' item.id item.receiver item.his_message_id %}"><i
                             class="fa-solid fa-pencil"></i></a>
                 </div>
@@ -200,14 +284,9 @@
         {% endif %}
         {% endfor %}
         {% else %}
-        <!-- If no messages -->
         <p>No messages yet. Start the conversation!</p>
         {% endif %}
     </div>
-
-    <!-- Placeholder for modal (optional dialogs) -->
-    {% block modal %}
-    {% endblock %}
 
     <!-- Input field depending on block status -->
     {% if blocked %}
@@ -221,7 +300,6 @@
     </form>
 
     {% else %}
-    <!-- Normal chat input -->
     <form action="" method="post">
         {% csrf_token %}
         <input type="text" name="text" placeholder="Type your message here">

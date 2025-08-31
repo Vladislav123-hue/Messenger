@@ -1,12 +1,7 @@
-{% extends "Login.html" %} <!-- Extends the base Login.html template -->
+{% extends "Login.html" %}
 
-{% block content %} <!-- Content block starts, overrides block from Login.html -->
-
+{% block content %}
 <style>
-    /* Styles specific to the Register page.
-       Some styles duplicate those in Login.html,
-       but that's fine since it's a separate block. */
-
     body {
         margin: 0;
         height: 100vh;
@@ -87,48 +82,61 @@
         color: red;
         font-weight: bold;
     }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 500px) {
+        #submitForm {
+            width: 90%;
+            padding: 20px;
+        }
+
+        #submitForm input,
+        #submitForm button {
+            font-size: 14px;
+            padding: 8px;
+        }
+
+        #submitForm h2 {
+            font-size: 20px;
+        }
+    }
+
+    @media (max-height: 600px) {
+        body {
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+    }
 </style>
 
-<!-- Registration form -->
 <form id="submitForm" method="post" action="{% url 'RegisterPage'%}">
-    {% csrf_token %} <!-- Protects against CSRF attacks -->
+    {% csrf_token %}
 
-    <h2>Register</h2> <!-- Form heading -->
+    <h2>Register</h2>
 
-    <!-- Username input -->
     <p>Username</p>
     <input name="Username" placeholder="Enter your username" required />
 
-    <!-- Email input -->
     <p>Email</p>
     <input name="Email" type="email" placeholder="Enter your email" required />
 
-    <!-- First name input -->
     <p>First name</p>
     <input name="First_name" placeholder="Enter your first name" required />
 
-    <!-- Last name input -->
     <p>Last name</p>
     <input name="Last_name" placeholder="Enter your last name" required />
 
-    <!-- Password input -->
     <p>Password</p>
     <input name="Password1" type="password" placeholder="Enter your password" required />
 
-    <!-- Confirm password input -->
     <p>Confirm password</p>
     <input name="Password2" type="password" placeholder="Enter your password" required />
 
-    <!-- Submit button -->
     <button>Register</button>
-
-    <!-- Link to login page -->
     <a href="{% url 'LoginPage' %}" id="login-link">Already have an account? Log in!</a>
 
-    <!-- If there is an error message, display it -->
     {% if error %}
     <div class="error-message">{{ error }}</div>
     {% endif %}
 </form>
-
 {% endblock %}

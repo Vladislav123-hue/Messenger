@@ -4,51 +4,47 @@
 <head>
     <meta charset="UTF-8" />
     <title>Login</title>
-</head>
-
-<body>
-    {% block content %}
-
     <style>
-        /* Page layout */
+        /* ===== PAGE LAYOUT ===== */
         body {
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             background: linear-gradient(135deg, #74b9ff, #a29bfe);
-            /* gradient background */
             font-family: Arial, sans-serif;
+            padding: 10px;
+            /* extra padding for small screens */
+            box-sizing: border-box;
         }
 
-        /* Login form container */
+        /* ===== LOGIN FORM ===== */
         #submitForm {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            width: 350px;
+            width: 100%;
+            max-width: 400px;
+            /* shrinkable width */
             padding: 30px;
             background: white;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Form header */
         #submitForm h2 {
             text-align: center;
             margin-bottom: 10px;
             color: #2d3436;
         }
 
-        /* Labels */
         #submitForm p {
             margin: 0;
             font-weight: bold;
             color: #2d3436;
         }
 
-        /* Input fields */
         #submitForm input {
             padding: 10px;
             font-size: 16px;
@@ -56,15 +52,15 @@
             border-radius: 8px;
             outline: none;
             transition: 0.3s;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        /* Input focus effect */
         #submitForm input:focus {
             border-color: #6c5ce7;
             box-shadow: 0 0 5px rgba(108, 92, 231, 0.5);
         }
 
-        /* Submit button */
         #submitForm button {
             padding: 10px;
             font-size: 16px;
@@ -75,14 +71,13 @@
             cursor: pointer;
             transition: 0.3s;
             margin-top: 10px;
+            width: 100%;
         }
 
-        /* Submit button hover */
         #submitForm button:hover {
             background-color: #5a4bcf;
         }
 
-        /* Register link below the form */
         #register-link {
             text-align: center;
             display: block;
@@ -95,15 +90,52 @@
             color: #5a4bcf;
         }
 
-        /* Error message (if login fails) */
         .error-message {
             text-align: center;
             color: red;
             font-weight: bold;
         }
+
+        /* ===== RESPONSIVE MEDIA QUERIES ===== */
+        @media (max-width: 500px) {
+            #submitForm {
+                padding: 20px;
+                gap: 10px;
+            }
+
+            #submitForm h2 {
+                font-size: 20px;
+            }
+
+            #submitForm input,
+            #submitForm button {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            body {
+                padding: 5px;
+            }
+        }
+
+        @media (max-width: 350px) {
+            #submitForm {
+                padding: 15px;
+            }
+
+            #submitForm h2 {
+                font-size: 18px;
+            }
+
+            #submitForm input,
+            #submitForm button {
+                font-size: 13px;
+                padding: 6px;
+            }
+        }
     </style>
 
-    <!-- Login form -->
+    <!-- ===== LOGIN FORM STRUCTURE ===== -->
     <form id="submitForm" method="post" action="{% url 'LoginPage'%}">
         {% csrf_token %}
 
@@ -117,16 +149,12 @@
 
         <button>Login</button>
 
-        <!-- Link to registration page -->
         <a href="{% url 'RegisterPage' %}" id="register-link">Don't have an account? Register!</a>
 
-        <!-- Error message (if provided in context) -->
         {% if error %}
         <div class="error-message">{{ error }}</div>
         {% endif %}
     </form>
-
-    {% endblock %}
-</body>
+    </body>
 
 </html>
